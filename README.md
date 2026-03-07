@@ -18,7 +18,7 @@ Termisu _(/ˌtɛr.mɪˈsuː/ — like tiramisu, but for terminals)_ is a library
 > [!IMPORTANT]
 > While the API is fairly stable at this point this is still pre 1.0 software and is not battle tested, you might encounter some bugs, please help improve termisu by reporting them.
 
-<a href="https://sonarcloud.io/summary/new_code?id=omarluq_termisu"><img src="https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg" alt="SonarCloud Quality Gate"/></a>
+<a href="https://sonarcloud.io/project/overview?id=omarluq_termisu"><img src="https://sonarcloud.io/images/project_badges/sonarcloud-dark.svg" alt="SonarCloud Quality Gate"/></a>
 
 ## Installation
 
@@ -455,7 +455,7 @@ mods.meta?
 
 ## Roadmap
 
-**Current Status: v0.1.0 (async event system complete)**
+**Current Status**
 
 | Component            | Status      |
 | -------------------- | ----------- |
@@ -473,10 +473,9 @@ mods.meta?
 | Terminal Modes       | ✅ Complete |
 | Synchronized Updates | ✅ Complete |
 | Unicode/Wide Chars   | ✅ Complete |
-
-### Planned
-
-- **Image protocols** - Sixel and Kitty graphics for inline images
+| C ABI                | ✅ Complete |
+| JS bindings          | wip         |
+| Image protocols      | planned     |
 
 ## Interop
 
