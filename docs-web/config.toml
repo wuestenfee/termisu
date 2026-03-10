@@ -205,7 +205,7 @@ lazy_loading = false  # If true, automatically add loading="lazy" to img tags
 
 [build]
 # Keep rendering deterministic; parallel mode can cross-wire pages in some environments.
-parallel = false
+parallel = true
 # =============================================================================
 # Deployment (Optional)
 # =============================================================================
