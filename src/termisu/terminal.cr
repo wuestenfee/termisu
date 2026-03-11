@@ -498,6 +498,10 @@ class Termisu::Terminal < Termisu::Renderer
   # Closes the terminal and underlying backend.
   def close
     Log.debug { "Closing terminal" }
+    disable_mouse
+    disable_enhanced_keyboard
+    exit_alternate_screen
+    disable_raw_mode
     @backend.close
   end
 
