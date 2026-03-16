@@ -380,6 +380,11 @@ begin
         # Redraw
         draw_mouse_panel.call(mouse_x, mouse_y, mouse_button)
         draw_event_log.call(last_event_text)
+        termisu.set_cursor(
+          mouse_x - 1,
+          mouse_y - 1,
+          blink: mouse_event.ctrl? || mouse_event.shift? || mouse_event.alt?
+        )
         termisu.render
       when Termisu::Event::Resize
         resize_event = event.as(Termisu::Event::Resize)
