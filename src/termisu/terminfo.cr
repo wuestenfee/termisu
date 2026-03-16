@@ -127,6 +127,11 @@ class Termisu::Terminfo
     get_cap("civis")
   end
 
+  # Returns escape sequence to make cursor blink/very visible (cvvis).
+  def blink_cursor_seq : String
+    get_cap("cvvis")
+  end
+
   # Returns the raw cup capability string (parametrized).
   #
   # Use `cursor_position_seq` to get a ready-to-use sequence with coordinates.

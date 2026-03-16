@@ -3,6 +3,7 @@ class Termisu::Terminal
     property x : Int32 = 0
     property y : Int32 = 0
     property? visible : Bool
+    property? blink : Bool = false
 
     def initialize(@visible = false)
     end
@@ -32,6 +33,25 @@ class Termisu::Terminal
     return if @cursor.visible?
     write(@terminfo.show_cursor_seq)
     @cursor.visible = true
+    write_cursor
+  end
+
+  def enable_cursor_blink
+    return if @cursor.blink?
+    @cursor.blink = true
+    write_cursor
+  end
+
+  def disable_cursor_blink
+    return unless @cursor.blink?
+    @cursor.blink = false
+    write_cursor
+  end
+
+  private def write_cursor
+    return unless @cursor.visible?
+    write("\e[#{@cursor.blink? ? 1 : 2} q")
+    write(@terminfo.blink_cursor_seq) if @cursor.blink?
   end
 
   def move_cursor(

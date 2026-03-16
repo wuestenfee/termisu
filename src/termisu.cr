@@ -162,9 +162,10 @@ class Termisu
   # --- Cursor Control ---
 
   # Sets cursor position and makes it visible.
-  def set_cursor(x : Int32, y : Int32, visible : Bool? = true)
+  def set_cursor(x : Int32, y : Int32, visible : Bool? = true, blink : Bool? = nil)
     @terminal.move_cursor(x, y)
     visible ? show_cursor : hide_cursor unless visible.nil?
+    blink ? @terminal.enable_cursor_blink : @terminal.disable_cursor_blink unless blink.nil?
   end
 
   # Hides the cursor.
