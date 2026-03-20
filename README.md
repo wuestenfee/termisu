@@ -1,15 +1,18 @@
 # Termisu
 
-[![Crystal Version](https://img.shields.io/badge/Crystal-%3E%3D1.18.2-000000?style=flat&labelColor=24292e&color=000000&logo=crystal&logoColor=white)](https://crystal-lang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat&labelColor=24292e&logo=opensourceinitiative&logoColor=white)](LICENSE)
-[![Tests](https://img.shields.io/github/actions/workflow/status/omarluq/termisu/test.yml?style=flat&labelColor=24292e&label=Tests&logo=github&logoColor=white)](https://github.com/omarluq/termisu/actions/workflows/test.yml)
-[![Version](https://img.shields.io/github/release/omarluq/termisu?style=flat&labelColor=24292e&color=28a745&label=Version&logo=semver&logoColor=white)](https://github.com/omarluq/termisu/releases)\
-[![codecov](https://img.shields.io/codecov/c/github/omarluq/termisu?style=flat&labelColor=24292e&logo=codecov&logoColor=white&token=YW23EDL5T5)](https://codecov.io/gh/omarluq/termisu)
-[![Docs](https://img.shields.io/badge/Docs-API%20Reference-5e5086?style=flat&labelColor=24292e&logo=gitbook&logoColor=white)](https://crystaldoc.info/github/omarluq/termisu)
-[![Maintained](https://img.shields.io/badge/Maintained%3F-yes-28a745?style=flat&labelColor=24292e&logo=checkmarx&logoColor=white)](https://github.com/omarluq/termisu)
-[![Made with Love](https://img.shields.io/badge/Made%20with-Love-ff69b4?style=flat&labelColor=24292e&logo=githubsponsors&logoColor=white)](https://github.com/omarluq/termisu)
+[![Crystal Version](https://img.shields.io/badge/Crystal-%3E%3D1.18.2-000000?style=flat&labelColor=171717&color=000000&logo=crystal&logoColor=white)](https://crystal-lang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat&labelColor=171717&logo=opensourceinitiative&logoColor=white)](LICENSE)
+[![Tests](https://img.shields.io/github/actions/workflow/status/omarluq/termisu/test.yml?style=flat&labelColor=171717&label=Tests&logo=github&logoColor=white)](https://github.com/omarluq/termisu/actions/workflows/test.yml)
+[![Version](https://img.shields.io/github/release/omarluq/termisu?style=flat&labelColor=171717&color=28a745&label=Version&logo=semver&logoColor=white)](https://github.com/omarluq/termisu/releases)
+[![codecov](https://img.shields.io/codecov/c/github/omarluq/termisu?style=flat&labelColor=171717&logo=codecov&logoColor=white&token=YW23EDL5T5)](https://codecov.io/gh/omarluq/termisu)
+[![Docs](https://img.shields.io/badge/Docs-API%20Reference-5e5086?style=flat&labelColor=171717&logo=gitbook&logoColor=white)](https://crystaldoc.info/github/omarluq/termisu)
+[![termisu.io](https://img.shields.io/badge/-termisu.io-5e5086?style=flat&labelColor=24292e&logo=safari&logoColor=white)](https://termisu.io)
+[![Maintained](https://img.shields.io/badge/Maintained%3F-yes-28a745?style=flat&labelColor=171717&logo=checkmarx&logoColor=white)](https://github.com/omarluq/termisu)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/omarluq/termisu?utm_source=oss&utm_medium=github&utm_campaign=omarluq%2Ftermisu&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/omarluq/termisu)
+[![Made with Love](https://img.shields.io/badge/Made%20with-Love-ff69b4?style=flat&labelColor=171717&logo=githubsponsors&logoColor=white)](https://github.com/omarluq/termisu)
 
-<!--  [![All Contributors](https://img.shields.io/github/all-contributors/omarluq/termisu?style=flat&labelColor=24292e&color=7f8c8d)](https://github.com/omarluq/termisu/graphs/contributors)-->
+<!--  [![All Contributors](https://img.shields.io/github/all-contributors/omarluq/termisu?style=flat&labelColor=171717&color=7f8c8d)](https://github.com/omarluq/termisu/graphs/contributors)-->
 
 <img src="assets/termisu.png" align="right" alt="Termisu Logo" width="200"/>
 
