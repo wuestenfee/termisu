@@ -3,16 +3,19 @@ class Termisu::Terminal
     property x : Int32 = 0
     property y : Int32 = 0
     property? visible : Bool
-    property? blink : Bool = false
-    property shape : Shape = Shape::Block
+    property shape : Shape = Shape::Default
 
     def initialize(@visible = false)
     end
 
-    enum Shape
-      Block     = 1
-      Underline = 3
-      Bar       = 5
+    enum Shape : UInt8
+      Default           = 0
+      BlinkingBlock     = 1
+      Block             = 2
+      BlinkingUnderline = 3
+      Underline         = 4
+      BlinkingBar       = 5
+      Bar               = 6
     end
   end
 
@@ -21,59 +24,47 @@ class Termisu::Terminal
     @cursor.x, @cursor.y = -1, -1
     move_cursor(x, y)
 
-    if @cursor.visible?
-      @cursor.visible = false
-      show_cursor
-    else
-      @cursor.visible = true
-      hide_cursor
-    end
+    visible = @cursor.visible?
+    @cursor.visible = !visible
+    set_cursor visible
   end
 
   def hide_cursor
-    return unless @cursor.visible?
-    write(@terminfo.hide_cursor_seq)
-    @cursor.visible = false
+    set_cursor visible: false
   end
 
   def show_cursor
-    return if @cursor.visible?
-    write(@terminfo.show_cursor_seq)
-    @cursor.visible = true
-    write_cursor
+    set_cursor visible: true
   end
 
-  def enable_cursor_blink
-    return if @cursor.blink?
-    @cursor.blink = true
-    write_cursor
-  end
+  def set_cursor(
+    visible : Bool? = nil,
+    shape : Cursor::Shape? = nil,
+  )
+    visible = @cursor.visible? if visible.nil?
+    shape = @cursor.shape if shape.nil?
 
-  def disable_cursor_blink
-    return unless @cursor.blink?
-    @cursor.blink = false
-    write_cursor
-  end
+    if visible
+      unless @cursor.visible?
+        write(@terminfo.show_cursor_seq)
+      end
+      unless @cursor.visible? && shape == @cursor.shape
+        # DECSCUSR carries the preferred cursor shape+blink state, while cvvis is
+        # sent as a compatibility shim for terminals that still honor the legacy
+        # terminfo blink capability. tmux, Alacritty, and Neovim can treat these
+        # sequences differently, so keep both for now and re-check behavior before
+        # dropping the terminfo path.
+        # Follow-up: validate cursor shape/blink behavior across supported
+        # terminals and remove blink_cursor_seq when DECSCUSR support is reliable.
+        write("\e[#{@cursor.shape.value} q")
+        write(@terminfo.blink_cursor_seq) if @cursor.shape.value.in?(1, 3, 5)
+      end
+    elsif @cursor.visible?
+      write(@terminfo.hide_cursor_seq)
+    end
 
-  def cursor_shape=(shape : Cursor::Shape)
-    return shape if @cursor.shape == shape
     @cursor.shape = shape
-    write_cursor
-    shape
-  end
-
-  private def write_cursor
-    return unless @cursor.visible?
-
-    # DECSCUSR carries the preferred cursor shape+blink state, while cvvis is
-    # sent as a compatibility shim for terminals that still honor the legacy
-    # terminfo blink capability. tmux, Alacritty, and Neovim can treat these
-    # sequences differently, so keep both for now and re-check behavior before
-    # dropping the terminfo path.
-    # Follow-up: validate cursor shape/blink behavior across supported
-    # terminals and remove blink_cursor_seq when DECSCUSR support is reliable.
-    write("\e[#{@cursor.shape.value + (@cursor.blink? ? 0 : 1)} q")
-    write(@terminfo.blink_cursor_seq) if @cursor.blink?
+    @cursor.visible = visible
   end
 
   def move_cursor(
@@ -89,11 +80,7 @@ class Termisu::Terminal
     return if x == @cursor.x && y == @cursor.y
 
     seq = @terminfo.cursor_position_seq(y, x)
-    if seq.empty?
-      write("\e[#{y + 1};#{x + 1}H")
-    else
-      write(seq)
-    end
+    write(seq.empty? ? "\e[#{y + 1};#{x + 1}H" : seq)
 
     @cursor.x, @cursor.y = x, y
   end

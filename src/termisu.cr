@@ -166,13 +166,20 @@ class Termisu
     x : Int32,
     y : Int32,
     visible : Bool? = true,
-    blink : Bool? = nil,
     shape : Terminal::Cursor::Shape? = nil,
   )
     @terminal.move_cursor(x, y)
-    visible ? show_cursor : hide_cursor unless visible.nil?
-    blink ? @terminal.enable_cursor_blink : @terminal.disable_cursor_blink unless blink.nil?
-    @terminal.cursor_shape = shape unless shape.nil?
+    @terminal.set_cursor(visible, shape)
+    @terminal.flush
+  end
+
+  # Sets the cursor visibility or shape
+  def set_cursor(
+    visible : Bool? = nil,
+    shape : Terminal::Cursor::Shape? = nil,
+  )
+    @terminal.set_cursor(visible, shape)
+    @terminal.flush
   end
 
   # Hides the cursor.

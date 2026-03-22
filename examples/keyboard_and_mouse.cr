@@ -380,13 +380,22 @@ begin
         # Redraw
         draw_mouse_panel.call(mouse_x, mouse_y, mouse_button)
         draw_event_log.call(last_event_text)
+        cursor_shape =
+          if mouse_event.ctrl? || mouse_event.shift? || mouse_event.alt?
+            {Termisu::Event::Mouse::Button::Left   => Termisu::Terminal::Cursor::Shape::BlinkingBlock,
+             Termisu::Event::Mouse::Button::Middle => Termisu::Terminal::Cursor::Shape::BlinkingUnderline,
+             Termisu::Event::Mouse::Button::Right  => Termisu::Terminal::Cursor::Shape::BlinkingBar,
+            }[mouse_event.button]?
+          else
+            {Termisu::Event::Mouse::Button::Left   => Termisu::Terminal::Cursor::Shape::Block,
+             Termisu::Event::Mouse::Button::Middle => Termisu::Terminal::Cursor::Shape::Underline,
+             Termisu::Event::Mouse::Button::Right  => Termisu::Terminal::Cursor::Shape::Bar,
+            }[mouse_event.button]?
+          end
         termisu.set_cursor(
           mouse_x - 1,
           mouse_y - 1,
-          blink: mouse_event.ctrl? || mouse_event.shift? || mouse_event.alt?,
-          shape: {1 => Termisu::Terminal::Cursor::Shape::Block,
-                  2 => Termisu::Terminal::Cursor::Shape::Underline,
-                  3 => Termisu::Terminal::Cursor::Shape::Bar}[mouse_event.button.value]?
+          shape: cursor_shape
         )
         termisu.render
       when Termisu::Event::Resize
