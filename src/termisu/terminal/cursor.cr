@@ -71,7 +71,7 @@ class Termisu::Terminal
     x : Int32 = @cursor.x,
     y : Int32 = @cursor.y,
   )
-    width, height = size
+    width, height = @size
     return if width <= 0 || height <= 0
 
     x = x.clamp(0, width - 1)
@@ -103,7 +103,7 @@ class Termisu::Terminal
   def write(data : String, columns_advanced = 0)
     @backend.write(data)
 
-    width, height = size
+    width, height = @size
     return if width <= 0 || height <= 0
 
     x = @cursor.x + columns_advanced

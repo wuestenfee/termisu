@@ -30,6 +30,7 @@ class Termisu::Terminal < Termisu::Renderer
   @sync_updates : Bool = true
   getter cursor : Cursor = Cursor.new
   getter title : String = ""
+  getter size : {Int32, Int32}
 
   # Cached render state for direct API optimization.
   # Prevents redundant escape sequences when the same style is set repeatedly.
@@ -48,8 +49,10 @@ class Termisu::Terminal < Termisu::Renderer
     @terminfo : Terminfo = Terminfo.new,
     *,
     @sync_updates : Bool = true,
+    size : {Int32, Int32}? = nil,
   )
-    width, height = size
+    @size = size || @backend.size
+    width, height = @size
     @buffer = Buffer.new(width, height)
     Log.debug { "Terminal initialized: #{width}x#{height}, sync_updates: #{@sync_updates}" }
   end
@@ -254,8 +257,8 @@ class Termisu::Terminal < Termisu::Renderer
   end
 
   # Delegates size to backend.
-  def size : {Int32, Int32}
-    @backend.size
+  def polled_size : {Int32, Int32}
+    @size = @backend.size
   end
 
   # Returns the input file descriptor for Reader.
@@ -530,8 +533,8 @@ class Termisu::Terminal < Termisu::Renderer
   # Resizes the buffer to new dimensions.
   #
   # Preserves existing content where possible.
-  def resize(width : Int32, height : Int32)
-    @buffer.resize(width, height)
+  def size=(@size : {Int32, Int32})
+    @buffer.resize(*size)
     move_cursor
   end
 

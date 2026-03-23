@@ -50,7 +50,7 @@ class Termisu
 
     # Create async event sources
     @input_source = Event::Source::Input.new(@reader, @input_parser)
-    @resize_source = Event::Source::Resize.new(-> { @terminal.size })
+    @resize_source = Event::Source::Resize.new(-> { @terminal.polled_size })
 
     # Timer source is optional (nil by default)
     # Can be either sleep-based Timer or kernel-level SystemTimer
@@ -305,7 +305,7 @@ class Termisu
   # immediately so subsequent set_cell calls can address the new dimensions.
   private def prepare_event(event : Event::Any) : Event::Any
     if resize = event.as?(Event::Resize)
-      @terminal.resize(resize.width, resize.height)
+      @terminal.size = {resize.width, resize.height}
     end
 
     event
