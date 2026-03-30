@@ -597,6 +597,7 @@ class Termisu::Terminal < Termisu::Renderer
     return if @mouse_enabled
     Log.debug { "Enabling mouse tracking" }
     apply_mouse_state true
+    flush
     @mouse_enabled = true
   end
 
@@ -607,6 +608,7 @@ class Termisu::Terminal < Termisu::Renderer
     return unless @mouse_enabled
     Log.debug { "Disabling mouse tracking" }
     apply_mouse_state false
+    flush
     @mouse_enabled = false
   end
 
@@ -639,6 +641,7 @@ class Termisu::Terminal < Termisu::Renderer
     return if @enhanced_keyboard
     Log.debug { "Enabling enhanced keyboard protocol" }
     apply_enhanced_keyboard_state true
+    flush
     @enhanced_keyboard = true
   end
 
@@ -650,6 +653,7 @@ class Termisu::Terminal < Termisu::Renderer
     return unless @enhanced_keyboard
     Log.debug { "Disabling enhanced keyboard protocol" }
     apply_enhanced_keyboard_state false
+    flush
     @enhanced_keyboard = false
   end
 
