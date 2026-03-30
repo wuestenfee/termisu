@@ -82,8 +82,7 @@ class Termisu::Terminal < Termisu::Renderer
   def exit_alternate_screen
     return unless @alternate_screen
     Log.debug { "Exiting alternate screen" }
-    @cursor = Cursor.new visible: true
-    apply_cursor_state
+    apply_cursor_state Cursor.new visible: true
     write(@terminfo.exit_keypad_seq)
     write(@terminfo.exit_ca_seq)
     reset_render_state
@@ -349,8 +348,8 @@ class Termisu::Terminal < Termisu::Renderer
     was_in_alternate = @alternate_screen
 
     backup_cursor = @cursor
-    @cursor = Cursor.new visible: true
-    apply_cursor_state
+
+    apply_cursor_state Cursor.new visible: true
 
     # For canonical/echo modes, exit alternate screen unless preserving
     exit_alternate_screen if !preserve_screen && user_interactive && was_in_alternate
@@ -363,8 +362,7 @@ class Termisu::Terminal < Termisu::Renderer
       enter_alternate_screen
     end
 
-    @cursor = backup_cursor unless backup_cursor.nil?
-    apply_cursor_state
+    apply_cursor_state(backup_cursor || @cursor)
     apply_terminal_state
     # Always invalidate after non-raw modes - screen content is
     # unpredictable after puts/print/gets during the mode block
@@ -601,7 +599,6 @@ class Termisu::Terminal < Termisu::Renderer
     Log.debug { "Enabling mouse tracking" }
     apply_mouse_state true
     flush
-    @mouse_enabled = true
   end
 
   # Disables mouse input tracking.
@@ -612,7 +609,6 @@ class Termisu::Terminal < Termisu::Renderer
     Log.debug { "Disabling mouse tracking" }
     apply_mouse_state false
     flush
-    @mouse_enabled = false
   end
 
   # Returns whether mouse tracking is currently enabled.
@@ -645,7 +641,6 @@ class Termisu::Terminal < Termisu::Renderer
     Log.debug { "Enabling enhanced keyboard protocol" }
     apply_enhanced_keyboard_state true
     flush
-    @enhanced_keyboard = true
   end
 
   # Disables enhanced keyboard protocol.
@@ -657,7 +652,6 @@ class Termisu::Terminal < Termisu::Renderer
     Log.debug { "Disabling enhanced keyboard protocol" }
     apply_enhanced_keyboard_state false
     flush
-    @enhanced_keyboard = false
   end
 
   # Returns whether enhanced keyboard protocol is enabled.
@@ -666,11 +660,11 @@ class Termisu::Terminal < Termisu::Renderer
   end
 
   private def apply_terminal_state
-    apply_mouse_state @mouse_enabled
-    apply_enhanced_keyboard_state @enhanced_keyboard
+    apply_mouse_state
+    apply_enhanced_keyboard_state
   end
 
-  private def apply_mouse_state(enabled : Bool)
+  private def apply_mouse_state(enabled : Bool = @mouse_enabled)
     # Enable SGR mode first (preferred), then normal mode as fallback.
     if enabled
       write(MOUSE_ENABLE_SGR)
@@ -679,9 +673,11 @@ class Termisu::Terminal < Termisu::Renderer
       write(MOUSE_DISABLE_SGR)
       write(MOUSE_DISABLE_NORMAL)
     end
+
+    @mouse_enabled = enabled
   end
 
-  private def apply_enhanced_keyboard_state(enabled : Bool)
+  private def apply_enhanced_keyboard_state(enabled : Bool = @enhanced_keyboard)
     # Try Kitty first (most comprehensive), then modifyOtherKeys as fallback.
     if enabled
       write(KITTY_KEYBOARD_ENABLE)
@@ -690,6 +686,8 @@ class Termisu::Terminal < Termisu::Renderer
       write(KITTY_KEYBOARD_DISABLE)
       write(MODIFY_OTHER_KEYS_DISABLE)
     end
+
+    @enhanced_keyboard = enabled
   end
 
   def title=(title : String)

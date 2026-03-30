@@ -19,14 +19,14 @@ class Termisu::Terminal
     end
   end
 
-  private def apply_cursor_state
-    x, y = @cursor.x, @cursor.y
+  private def apply_cursor_state(cursor : Cursor = @cursor)
     @cursor.x, @cursor.y = -1, -1
-    move_cursor(x, y)
+    move_cursor(cursor.x, cursor.y)
 
-    visible = @cursor.visible?
-    @cursor.visible = !visible
-    set_cursor visible
+    @cursor.visible = !cursor.visible?
+    set_cursor cursor.visible?
+
+    @cursor
   end
 
   def hide_cursor
