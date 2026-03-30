@@ -695,6 +695,11 @@ class Termisu::Terminal < Termisu::Renderer
     write(@terminfo.to_status_line_seq + title + @terminfo.from_status_line_seq)
     @title = title
   end
+
+  def bell
+    @backend.write "\a"
+    flush
+  end
 end
 
 require "./terminal/*"

@@ -346,6 +346,9 @@ begin
         draw_keyboard.call(highlighted, current_modifiers)
         draw_event_log.call(last_event_text)
         termisu.render
+        if event.char == 'b'
+          termisu.bell
+        end
       when Termisu::Event::Mouse
         mouse_event = event.as(Termisu::Event::Mouse)
 

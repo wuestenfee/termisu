@@ -800,6 +800,8 @@ class Termisu
 
   # The title assigned to the Terminal's window
   delegate title, :title=, to: @terminal
+
+  delegate bell, to: @terminal
 end
 
 require "./termisu/*"
