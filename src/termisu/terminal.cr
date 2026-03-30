@@ -24,10 +24,10 @@ class Termisu::Terminal < Termisu::Renderer
   @backend : Terminal::Backend
   @terminfo : Terminfo
   @buffer : Buffer
-  @alternate_screen : Bool = false
-  @mouse_enabled : Bool = false
-  @enhanced_keyboard : Bool = false
-  @sync_updates : Bool = true
+  getter? alternate_screen : Bool = false
+  getter? mouse_enabled : Bool = false
+  getter? enhanced_keyboard : Bool = false
+  property? sync_updates : Bool = true
   getter cursor : Cursor = Cursor.new
   getter title : String = ""
   getter size : {Int32, Int32}
@@ -88,11 +88,6 @@ class Termisu::Terminal < Termisu::Renderer
     reset_render_state
     flush
     @alternate_screen = false
-  end
-
-  # Returns whether alternate screen mode is active.
-  def alternate_screen? : Bool
-    @alternate_screen
   end
 
   # Clears the screen.
@@ -545,18 +540,6 @@ class Termisu::Terminal < Termisu::Renderer
   BSU = "\e[?2026h" # Begin Synchronized Update
   ESU = "\e[?2026l" # End Synchronized Update
 
-  # Returns whether synchronized updates are enabled.
-  #
-  # When enabled, render operations are wrapped in BSU/ESU sequences
-  # to prevent screen tearing. Enabled by default.
-  getter? sync_updates : Bool
-
-  # Sets whether synchronized updates are enabled.
-  #
-  # Can be toggled at runtime. Set to false for debugging or
-  # compatibility with terminals that misbehave with sync sequences.
-  setter sync_updates : Bool
-
   # --- Mouse Support ---
 
   # Mouse protocol escape sequences.
@@ -611,11 +594,6 @@ class Termisu::Terminal < Termisu::Renderer
     flush
   end
 
-  # Returns whether mouse tracking is currently enabled.
-  def mouse_enabled? : Bool
-    @mouse_enabled
-  end
-
   # --- Enhanced Keyboard Support ---
 
   # Enables enhanced keyboard protocol for disambiguated key reporting.
@@ -652,11 +630,6 @@ class Termisu::Terminal < Termisu::Renderer
     Log.debug { "Disabling enhanced keyboard protocol" }
     apply_enhanced_keyboard_state false
     flush
-  end
-
-  # Returns whether enhanced keyboard protocol is enabled.
-  def enhanced_keyboard? : Bool
-    @enhanced_keyboard
   end
 
   private def apply_terminal_state
