@@ -412,8 +412,8 @@ class Termisu::Input::Parser
     return unless parts.size >= 3
 
     cb = parts[0].to_i? || return
-    x = parts[1].to_i? || 1
-    y = parts[2].to_i? || 1
+    x = (parts[1].to_i? || 1) - 1
+    y = (parts[2].to_i? || 1) - 1
 
     button = Event::Mouse::Button.from_cb(cb)
     # Wheel events are instantaneous - they don't have release events
